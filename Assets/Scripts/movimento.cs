@@ -7,12 +7,14 @@ public class movimento : MonoBehaviour
     public class ObstaculoMovel
     {
         private bool praCima;
+        private bool direita;
         public GameObject obst;
 
 
-        public ObstaculoMovel(bool pc)
+        public ObstaculoMovel(bool pc, bool dir )
         {
             this.praCima = pc;
+            this.direita = dir;
         }
         public void movimentoVertical()
         {
@@ -31,17 +33,39 @@ public class movimento : MonoBehaviour
             if (!this.praCima)
             {
                 print("Pra baixo");
-                if (obst.transform.localPosition.y <= 0.5f)
+                if (obst.transform.localPosition.y <= 0.5f )
                     this.praCima = true;
                 else
                     obst.transform.Translate(Vector3.down * Time.deltaTime, Space.World);
                 //obst.transform.localPosition =  Vector3.down * Time.deltaTime;
             }
         }
+        public void movimentoHorizontal()
+        {
+            if (obst.transform.localPosition.x <= 2.0f && direita)
+                obst.transform.Translate(Vector3.right * Time.deltaTime, Space.World);
+            if (obst.transform.localPosition.x >= 2.0f)
+            {
+                this.direita = false;
+            }
+            if (!this.direita)
+            {
+                print("Pra esquerda");
+                if (obst.transform.localPosition.x <= -2.0f)
+                    this.direita = true;
+                else
+                    obst.transform.Translate(Vector3.left * Time.deltaTime, Space.World);
+            }
+
+        }
+        public void resetPos()
+        {
+            obst.transform.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+        }
      }
         // Use this for initialization
 
-        ObstaculoMovel oM = new ObstaculoMovel(true);
+        ObstaculoMovel oM = new ObstaculoMovel(true, true);
 
         void Start()
         {
@@ -54,8 +78,9 @@ public class movimento : MonoBehaviour
         // Update is called once per frame
         void Update()
         {
-            oM.movimentoVertical();
-
+            //oM.movimentoVertical();
+            
+            oM.movimentoHorizontal();
         }
   
 }
