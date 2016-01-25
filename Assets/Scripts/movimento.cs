@@ -3,12 +3,14 @@ using System.Collections;
 
 public class movimento : MonoBehaviour
 {
-
+    //Definição da Classe Obstáculo
     public class ObstaculoMovel
     {
         private bool praCima;
         private bool direita;
-        public GameObject obst;
+        private GameObject obst;
+        private bool estado; //ativo-verdadeiro; inativo- false
+
 
 
         public ObstaculoMovel(bool pc, bool dir )
@@ -62,6 +64,17 @@ public class movimento : MonoBehaviour
         {
             obst.transform.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
         }
+        public bool defineObjeto(string nomeObstaculo)
+        {
+            this.obst = GameObject.Find(nomeObstaculo);
+            if (obst == null)
+                return false;
+            else
+                return true;
+        }
+        public void defineEstado(bool estado) {
+            this.estado = estado; 
+        }
      }
         // Use this for initialization
 
@@ -69,11 +82,11 @@ public class movimento : MonoBehaviour
 
         void Start()
         {
-            GameObject obstaculo;
-            obstaculo = GameObject.Find("Obstaculo");
-
-            oM.obst = obstaculo;
-        }
+            if (oM.defineObjeto("Obstaculo"))
+               print("Objeto Obstaculo Encontrado e Definido");
+            else
+               print("Objeto Obstaculo Não Encontrado");
+    }
 
         // Update is called once per frame
         void Update()
